@@ -16,27 +16,31 @@
       loop:
         - "{{ package_list }}"
 
+    - name: Get current username
+      command: whoami
+      register: current_user
+
     - name: Copy .bashrc
       copy:
         src: ~/wsl2_configs/.bashrc
-        dest: /home/vm2/.bashrc
-        owner: vm2
-        group: vm2
+        dest: "/home/{{ current_user.stdout }}/.bashrc"
+        owner: "{{ current_user.stdout }}"
+        group: "{{ current_user.stdout }}"
         mode: '0644'
 
     - name: Copy .tmux.conf
       copy:
         src: ~/wsl2_configs/.tmux.conf
-        dest: /home/vm2/.tmux.conf
-        owner: vm2
-        group: vm2
+        dest: "/home/{{ current_user.stdout }}/.tmux.conf"
+        owner: "{{ current_user.stdout }}"
+        group: "{{ current_user.stdout }}"
         mode: '0644'
 
     - name: Copy .gitconfig
       copy:
         src: ~/wsl2_configs/.gitconfig
-        dest: /home/vm2/.gitconfig
-        owner: vm2
-        group: vm2
+        dest: "/home/{{ current_user.stdout }}/.gitconfig"
+        owner: "{{ current_user.stdout }}"
+        group: "{{ current_user.stdout }}"
         mode: '0644'
 
