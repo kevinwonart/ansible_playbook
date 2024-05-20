@@ -1,0 +1,7 @@
+in target console run these commands before runing ansible 
+chmod 600 ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+
+ansible-playbook -i inventory.ini dev_env.yml --ask-become-pass
+
+

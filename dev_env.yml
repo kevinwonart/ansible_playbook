@@ -1,0 +1,42 @@
+---
+- hosts: debian_vm
+  become: true
+  vars:
+    package_list: "{{ lookup('file', 'wsl2_packages.txt').splitlines() }}"
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install essential packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - "{{ package_list }}"
+
+    - name: Copy .bashrc
+      copy:
+        src: ~/wsl2_configs/.bashrc
+        dest: /home/vm2/.bashrc
+        owner: vm2
+        group: vm2
+        mode: '0644'
+
+    - name: Copy .tmux.conf
+      copy:
+        src: ~/wsl2_configs/.tmux.conf
+        dest: /home/vm2/.tmux.conf
+        owner: vm2
+        group: vm2
+        mode: '0644'
+
+    - name: Copy .gitconfig
+      copy:
+        src: ~/wsl2_configs/.gitconfig
+        dest: /home/vm2/.gitconfig
+        owner: vm2
+        group: vm2
+        mode: '0644'
+
